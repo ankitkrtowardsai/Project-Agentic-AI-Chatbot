@@ -39,7 +39,8 @@ st.title("Agentic Chatbot with LangGraph")
 #   Execution Control & Metadata (agent Recursion Limit, Tags & Metadata )
 CONFIG = {'configurable': {'thread_id': 'thread-1'}}
 
-
+# If you use a regular Python variable (like messages = []), it gets wiped out and reset to 
+# empty on every single rerun. st.session_state acts like a memory vault that survives these reruns.
 if 'message_history' not in st.session_state:
     st.session_state['message_history'] = []
 
@@ -65,7 +66,7 @@ if user_input:
     with st.chat_message('assistant'): #assistant emoji k liye
 
         ai_message = st.write_stream(
-            message_chunk.content for message_chunk, metadata in chatbot.stream(
+            message_chunk.content for message_chunk, metadata in chatbot.stream(   # Note : invoke() -> stream()
                 {'messages': [HumanMessage(content=user_input)]},
                 config= CONFIG,
                 stream_mode= 'messages'
